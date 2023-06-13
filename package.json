@@ -4,6 +4,10 @@
   "private": true,
   "homepage": ".",
   "main": "build/electron/main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolaslopezj/rebrowser"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -23,7 +27,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "postinstall": "electron-builder --config .electron-builder.config.js install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js",
     "start": "react-scripts start",
@@ -54,6 +58,9 @@
     "cross-env": "^7.0.3",
     "electron": "^25.1.0",
     "electron-builder": "^23.6.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "tailwindcss": "^3.3.2",
     "wait-on": "^7.0.1"
   }
 }
