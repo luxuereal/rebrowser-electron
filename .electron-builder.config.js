@@ -4,8 +4,8 @@
  */
 module.exports = async function () {
   return {
-    productName: 'Rebrowse',
-    appId: 'com.nicolaslopezj.rebrowse',
+    productName: 'Rebrowser',
+    appId: 'com.nicolaslopezj.rebrowser',
     afterSign: 'electron-builder-notarize',
     directories: {
       output: 'dist',
@@ -51,5 +51,5 @@ module.exports = async function () {
       icon: 'assets/icon.icns',
       internetEnabled: true,
     },
-  };
-};
+  }
+}
