@@ -1,13 +1,14 @@
+import {Route, Routes} from 'react-router-dom'
 import Layout from './Layout'
+import ConfigIndex from './Config'
 
-function App() {
+export default function App() {
   return (
     <Layout>
-      <div className="bg-red-100">
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      </div>
+      <Routes>
+        <Route path="/" element={<div>Home</div>} />
+        <Route path="/config" element={<ConfigIndex />} />
+      </Routes>
     </Layout>
   )
 }
-
-export default App
