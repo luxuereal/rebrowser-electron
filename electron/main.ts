@@ -1,11 +1,9 @@
-import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
-import * as isDev from 'electron-is-dev';
-import installExtension, {
-  REACT_DEVELOPER_TOOLS,
-} from 'electron-devtools-installer';
+import {app, BrowserWindow} from 'electron'
+import * as path from 'path'
+import * as isDev from 'electron-is-dev'
+import {initIpc} from './app/ipc'
 
-let win: BrowserWindow | null = null;
+let win: BrowserWindow | null = null
 
 function createWindow() {
   win = new BrowserWindow({
@@ -13,17 +11,18 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      preload: path.resolve(__dirname, 'preload.js'),
     },
-  });
+  })
 
   if (isDev) {
-    win.loadURL('http://localhost:3000/index.html');
+    win.loadURL('http://localhost:5149/index.html')
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html`);
+    win.loadURL(`file://${__dirname}/../index.html`)
   }
 
-  win.on('closed', () => (win = null));
+  win.on('closed', () => (win = null))
 
   // Hot Reloading
   if (isDev) {
@@ -39,29 +38,27 @@ function createWindow() {
       ),
       forceHardReset: true,
       hardResetMethod: 'exit',
-    });
+    })
   }
-
-  // DevTools
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
 
   if (isDev) {
     // win.webContents.openDevTools();
   }
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  initIpc()
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+  // if (process.platform !== 'darwin') {
+  app.quit()
+  // }
+})
 
 app.on('activate', () => {
   if (win === null) {
-    createWindow();
+    createWindow()
   }
-});
+})

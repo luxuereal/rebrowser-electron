@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2015",
     "module": "commonjs",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "outDir": "../build", // Output transpiled files to build/electron/
     "rootDir": "../",
     "noEmitOnError": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "esModuleInterop": true
   }
 }

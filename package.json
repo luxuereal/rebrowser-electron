@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "main": "build/electron/main.js",
+  "main": "./build/electron/main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nicolaslopezj/rebrowser"
@@ -15,13 +15,15 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/electron-devtools-installer": "^2.2.2",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.36",
+    "@types/node": "^18.18.36",
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "classnames": "^2.3.2",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
     "electron-reload": "^2.0.0-alpha.1",
+    "electron-store": "^8.1.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.12.1",
@@ -32,9 +34,9 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
+    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:5149 && tsc -p electron -w\" \"wait-on http://127.0.0.1:5149 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config .electron-builder.config.js",
-    "start": "react-scripts start",
+    "start": "PORT=5149 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -58,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.195",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "electron": "^25.1.0",

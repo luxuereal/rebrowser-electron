@@ -1,19 +1,23 @@
 import classNames from 'classnames'
 import {Link, useLocation} from 'react-router-dom'
-
-const tabs = [
-  {
-    name: 'Home',
-    path: '/',
-  },
-  {
-    name: 'Config',
-    path: '/config',
-  },
-]
+import {useConfig} from '../../Config/types'
 
 export default function Tabs() {
   const location = useLocation()
+  const {config} = useConfig()
+  if (!config) return null
+
+  const tabs = [
+    ...config.pages.map((page, index) => ({
+      name: page.name,
+      path: `/page/${index}`,
+    })),
+    {
+      name: 'Config',
+      path: '/config',
+    },
+  ]
+
   return (
     <div className="flex space-x-5 bg-gray-50 px-5 pt-2">
       {tabs.map((tab, index) => {
