@@ -49,9 +49,14 @@ export default function ConfigIndex() {
           </div>
         </Field>
       </Form>
-      <div>
+      <div className="space-x-2">
         <Button primary onClick={() => electronAPI.restartApp()}>
           Reiniciar
+        </Button>
+        <Button
+          primary
+          onClick={() => electronAPI.resetAllNavigationStorageAndCache()}>
+          Reset caché
         </Button>
       </div>
     </div>

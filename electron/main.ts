@@ -1,14 +1,16 @@
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, powerSaveBlocker} from 'electron'
 import * as path from 'path'
 import * as isDev from 'electron-is-dev'
 import {initIpc} from './app/ipc'
+import {startPages} from './pages'
 
-let win: BrowserWindow | null = null
+export let mainWindow: BrowserWindow | null = null
+let powerSaveBlockerId = null
 
 function createWindow() {
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  mainWindow = new BrowserWindow({
+    width: 1000,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       preload: path.resolve(__dirname, 'preload.js'),
@@ -16,13 +18,18 @@ function createWindow() {
   })
 
   if (isDev) {
-    win.loadURL('http://localhost:5149/index.html')
+    mainWindow.loadURL('http://localhost:5149/index.html')
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html`)
+    mainWindow.loadURL(`file://${__dirname}/../index.html`)
   }
 
-  win.on('closed', () => (win = null))
+  mainWindow.on('closed', () => {
+    mainWindow = null
+    if (powerSaveBlockerId) {
+      powerSaveBlocker.stop(powerSaveBlockerId)
+    }
+  })
 
   // Hot Reloading
   if (isDev) {
@@ -42,13 +49,16 @@ function createWindow() {
   }
 
   if (isDev) {
-    // win.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   }
+
+  powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension')
 }
 
 app.on('ready', () => {
   initIpc()
   createWindow()
+  setTimeout(startPages, 1000)
 })
 
 app.on('window-all-closed', () => {
@@ -58,7 +68,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-  if (win === null) {
+  if (mainWindow === null) {
     createWindow()
   }
 })

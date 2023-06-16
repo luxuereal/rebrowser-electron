@@ -17,6 +17,5 @@ export async function setConfig(config: any) {
 
 export function getConfig() {
   const config = store.get('config', {pages: []}) as Config
-  console.log({config})
   return config
 }

@@ -1,6 +1,13 @@
 const {contextBridge, ipcRenderer} = require('electron')
 
-const invokes = ['restartApp', 'getConfig', 'setConfig']
+const invokes = [
+  'restartApp',
+  'getConfig',
+  'setConfig',
+  'showPage',
+  'hidePage',
+  'resetAllNavigationStorageAndCache',
+]
 
 const channels = {}
 
